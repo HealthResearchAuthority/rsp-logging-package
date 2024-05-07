@@ -1,20 +1,42 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
+This repo is a container for hosting all common packages and libraries.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+1. Clone the repository
+1. Make changes to the existing package OR
+1. Create a new classlib project
+1. Change the project version using the convention Major.Minor.Revision
+1. Create a new package by using `dotnet pack` command
+1. Publish the package to private NuGet feed
+	1. Via CI/CD pipeline
+	1. Push the package manually.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Publish the package via CI/CD pipeline
+CI/CD pipeline has been configured to generate and push the package to the Azure Artifacts private feed i.e. rsp-nuget-feed. To trigger the pipeline
+Follow the steps below:
+1. Clone the repository
+1. Make changes to the existing package
+1. Commit the changes
+1. Push the changes
+1. Raise the PR to master
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+# Publishing a package manually
+1. If this is the first time you are publishing a package you need to install the [Azure Artifacts Credentials Provider](https://github.com/microsoft/artifacts-credprovider#azure-artifacts-credential-provider)
+1. The `installcredprovider.ps1` has been downloaded in the scripts folder
+1. Alternatively you can download it from [here](https://github.com/microsoft/artifacts-credprovider/blob/master/helpers/installcredprovider.ps1)
+1. Open the Powershell in elevated mode and run the installcredprovider.ps1
+1. The navigate to the directory where the package was generated, usually in the Debug folder e.g. `Rsp.Logging.1.0.0.nupkg`
+1. Type the following command to publish the package
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+	```
+	dotnet nuget push .\Rsp.Logging.1.0.0.nupkg --source https://pkgs.dev.azure.com/FutureIRAS/0e030eb0-cb72-4f42-b99a-26e6544271c3/_packaging/rsp-nuget-feed/nuget/v3/index.json -k iras
+	```
+
+	You must provide an api-key (-k switch) any string would do
+
+# Consuming the package
+1. Make sure you have the rsp-nuget-feed package source configured using the following url
+	```
+	https://pkgs.dev.azure.com/FutureIRAS/0e030eb0-cb72-4f42-b99a-26e6544271c3/_packaging/rsp-nuget-feed/nuget/v3/index.json
+	```
+2. In visual studio use the NuGet Package Manager to update the package
