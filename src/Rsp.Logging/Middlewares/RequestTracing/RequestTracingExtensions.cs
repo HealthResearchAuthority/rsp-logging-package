@@ -18,9 +18,7 @@ public static class RequestTracingExtensions
     /// <exception cref="ArgumentNullException" />
     public static IApplicationBuilder UseRequestTracing(this IApplicationBuilder app)
     {
-        var options = new RequestTracingOptions();
-
-        return app.UseRequestTracing(o => o = options);
+        return app.UseSerilog(new RequestTracingOptions());
     }
 
     /// <summary>
@@ -31,7 +29,7 @@ public static class RequestTracingExtensions
     /// <exception cref="ArgumentNullException" />
     public static IApplicationBuilder UseRequestTracing(this IApplicationBuilder app, RequestTracingOptions options)
     {
-        return app.UseRequestTracing(o => o = options);
+        return app.UseSerilog(options);
     }
 
     /// <summary>
@@ -47,6 +45,11 @@ public static class RequestTracingExtensions
         // configure request tracing options using the action delegate
         configureOptions(options);
 
+        return app.UseSerilog(options);
+    }
+
+    private static IApplicationBuilder UseSerilog(this IApplicationBuilder app, RequestTracingOptions options)
+    {
         return app.UseSerilogRequestLogging
         (
             requestLoggingOptions =>

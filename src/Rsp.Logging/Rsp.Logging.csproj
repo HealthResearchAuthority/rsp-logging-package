@@ -3,17 +3,23 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<PackageId>Rsp.Logging</PackageId>
-		<Version>1.0.1</Version>
+		<Version>1.0.6</Version>
 		<Authors>PA Consulting</Authors>
 		<Company>Health Research Authority</Company>
-		<Description>
-			Logging package that exposes the following features.
-			- Extension methods on ILogger interface to support high performance logging.
-			- RequestTracing middleware that intercepts/adds the X-Correlation-ID and adds it to the logging scope.
-			- Logs the Request Duration
-			- UnhandledException middleware that logs the exception that is unhandled by the application
+		<Description>Logging package that exposes methods for high performance logging, correlationId middleware and
+request logging middleware.
+
+- Extension methods on ILogger interface to support high performance logging.
+- CorrelationId middleware that intercepts/adds the x-correlation-id and adds it to the logging scope.
+- Logs the Request Duration and StatusCode
 		</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageTags>logging;loggermessage;correlationId</PackageTags>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageProjectUrl>https://dev.azure.com/futureiras/Research%20Systems%20Programme/_git/rsp-logging-package</PackageProjectUrl>
+		<RepositoryUrl>https://dev.azure.com/futureiras/Research%20Systems%20Programme/_git/rsp-logging-package</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<RootNamespace>Rsp.Logging</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -25,6 +31,13 @@
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />

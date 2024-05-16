@@ -9,6 +9,10 @@ namespace Rsp.Logging.Extensions;
 /// </summary>
 public static class LoggingExtensions
 {
+    private const string completed = nameof(completed);
+
+    private const string called = nameof(called);
+
     private static readonly Action<ILogger, string?, string, string, Exception?> TraceActionWithParams =
         LoggerMessage.Define<string?, string, string>(LogLevel.Trace, 103, "{Method} {Parameters} {Message}");
 
@@ -51,11 +55,11 @@ public static class LoggingExtensions
         switch (logLevel)
         {
             case LogLevel.Trace:
-                TraceAction(logger, method, "called", exception);
+                TraceAction(logger, method, called, exception);
                 break;
 
             default:
-                InfoAction(logger, method, "called", exception);
+                InfoAction(logger, method, called, exception);
                 break;
         }
     }
@@ -73,11 +77,11 @@ public static class LoggingExtensions
         switch (logLevel)
         {
             case LogLevel.Trace:
-                TraceActionWithParams(logger, method, parameters, "called", exception);
+                TraceActionWithParams(logger, method, parameters, called, exception);
                 break;
 
             default:
-                InfoActionWithParams(logger, method, parameters, "called", exception);
+                InfoActionWithParams(logger, method, parameters, called, exception);
                 break;
         }
     }
@@ -94,11 +98,11 @@ public static class LoggingExtensions
         switch (logLevel)
         {
             case LogLevel.Trace:
-                TraceAction(logger, method, "completed", exception);
+                TraceAction(logger, method, completed, exception);
                 break;
 
             default:
-                InfoAction(logger, method, "completed", exception);
+                InfoAction(logger, method, completed, exception);
                 break;
         }
     }
@@ -116,11 +120,11 @@ public static class LoggingExtensions
         switch (logLevel)
         {
             case LogLevel.Trace:
-                TraceActionWithParams(logger, method, parameters, "completed", exception);
+                TraceActionWithParams(logger, method, parameters, completed, exception);
                 break;
 
             default:
-                InfoActionWithParams(logger, method, parameters, "completed", exception);
+                InfoActionWithParams(logger, method, parameters, completed, exception);
                 break;
         }
     }

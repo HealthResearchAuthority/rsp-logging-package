@@ -34,6 +34,11 @@ resources:
       ref: ${{ parameters.devops_library_branch }}
 
 stages:
-  - template: jobs/artifact.yaml@library
-    parameters:
-      run_github_security_scan: ${{ parameters.run_github_security_scan }}
+  - stage: CustomNuGetPackage
+    displayName: Creating Logging NuGet Package
+    jobs:
+    - template: jobs/artifact.yaml@library
+      parameters:
+        run_github_security_scan: ${{ parameters.run_github_security_scan }}
+        sonar_project_key: FutureIRAS_rsp-logging-package
+        sonar_project_name: rsp-logging-package
