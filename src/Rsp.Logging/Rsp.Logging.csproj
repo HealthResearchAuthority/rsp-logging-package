@@ -3,7 +3,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<PackageId>Rsp.Logging</PackageId>
-		<Version>1.0.6</Version>
+		<Version>1.0.7</Version>
 		<Authors>HRA Technology Team</Authors>
 		<Company>Health Research Authority</Company>
 		<Description>Logging package that exposes methods for high performance logging, correlationId middleware and
