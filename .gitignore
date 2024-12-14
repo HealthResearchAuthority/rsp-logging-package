@@ -333,3 +333,6 @@ ASALocalRun/
 
 #live unit testing configuration
 *.lutconfig
+
+#vshistory
+.vshistory/
