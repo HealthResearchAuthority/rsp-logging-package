@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
-using Rsp.Logging.Domain;
 
 namespace Rsp.Logging.Extensions;
 
@@ -15,149 +14,191 @@ public static class LoggingExtensions
     private const string called = nameof(called);
 
     /// <summary>
-    /// Logs that a method was called.
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Information"/> or <see cref="LogLevel.Trace"/> that a method was called.
     /// </summary>
     /// <param name="logger"><see cref="ILogger" /></param>
-    /// <param name="logLevel">Log level <see cref="LogLevel"/></param>
+    /// <param name="logLevel">
+    ///     <see cref="LogLevel"/>Default: <see cref="LogLevel.Information"/>. Only <see cref="LogLevel.Information"/> and <see cref="LogLevel.Trace"/>
+    ///     are supported. Anyother level, will be logged as Information.
+    /// </param>
     /// <param name="method">Method name</param>
-    public static void LogMethodStarted(this ILogger logger, LogLevel logLevel = LogLevel.Trace, [CallerMemberName] string method = "")
+    public static void LogMethodStarted(this ILogger logger, LogLevel logLevel = LogLevel.Information, [CallerMemberName] string method = "")
     {
-        var eventId = logLevel switch
+        switch (logLevel)
         {
-            LogLevel.Trace => EventIds.Trace,
-            LogLevel.Information => EventIds.Information,
-            _ => 0
-        };
+            case LogLevel.None:
+                break;
 
-        logger.LogMessage(logLevel, eventId, method, called);
+            case LogLevel.Trace:
+                logger.LogVerbose(method, called);
+                break;
+
+            default:
+                logger.LogInformation(method, called);
+                break;
+        }
     }
 
     /// <summary>
-    /// Logs that a method was called.
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Information"/> or <see cref="LogLevel.Trace"/> that a method was called
+    /// with parameters.
     /// </summary>
     /// <param name="logger"><see cref="ILogger" /></param>
     /// <param name="parameters">Comma separated list of parameters</param>
-    /// <param name="logLevel">Log level <see cref="LogLevel"/></param>
+    /// <param name="logLevel">
+    ///     <see cref="LogLevel"/>Default: <see cref="LogLevel.Information"/>. Only <see cref="LogLevel.Information"/> and <see cref="LogLevel.Trace"/>
+    ///     are supported. Anyother level, will be logged as Information.
+    /// </param>
     /// <param name="method">Method name</param>
-    public static void LogMethodStarted(this ILogger logger, string parameters, LogLevel logLevel = LogLevel.Trace, [CallerMemberName] string method = "")
+    public static void LogMethodStarted(this ILogger logger, string parameters, LogLevel logLevel = LogLevel.Information, [CallerMemberName] string method = "")
     {
-        var eventId = logLevel switch
+        switch (logLevel)
         {
-            LogLevel.Trace => EventIds.Trace,
-            LogLevel.Information => EventIds.Information,
-            _ => 0
-        };
+            case LogLevel.None:
+                break;
 
-        logger.LogMessage(logLevel, eventId, method, parameters, called);
+            case LogLevel.Trace:
+                logger.LogVerbose(method, parameters, called);
+                break;
+
+            default:
+                logger.LogInformation(method, parameters, called);
+                break;
+        }
     }
 
     /// <summary>
-    /// Logs that method call is completed.
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Information"/> that a method call was completed.
     /// </summary>
     /// <param name="logger"><see cref="ILogger" /></param>
-    /// <param name="logLevel">Log level <see cref="LogLevel"/></param>
+    /// <param name="logLevel">
+    ///     <see cref="LogLevel"/>Default: <see cref="LogLevel.Information"/>. Only <see cref="LogLevel.Information"/> and <see cref="LogLevel.Trace"/>
+    ///     are supported. Anyother level, will be logged as Information.
+    /// </param>
+    /// <param name="method">Method name</param>
+    public static void LogMethodCompleted(this ILogger logger, LogLevel logLevel = LogLevel.Information, [CallerMemberName] string method = "")
+    {
+        switch (logLevel)
+        {
+            case LogLevel.None:
+                break;
+
+            case LogLevel.Trace:
+                logger.LogVerbose(method, completed);
+                break;
+
+            default:
+                logger.LogInformation(method, completed);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Trace"/> that a method call was completed with parameters.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger" /></param>
+    /// <param name="parameters">Comma separated list of parameters</param>
+    /// <param name="logLevel">
+    ///     <see cref="LogLevel"/>Default: <see cref="LogLevel.Information"/>. Only <see cref="LogLevel.Information"/> and <see cref="LogLevel.Trace"/>
+    ///     are supported. Anyother level, will be logged as Information.
+    /// </param>
+    /// <param name="method">Method name</param>
+    public static void LogMethodCompleted(this ILogger logger, string parameters, LogLevel logLevel = LogLevel.Information, [CallerMemberName] string method = "")
+    {
+        switch (logLevel)
+        {
+            case LogLevel.None:
+                break;
+
+            case LogLevel.Trace:
+                logger.LogVerbose(method, parameters, completed);
+                break;
+
+            default:
+                logger.LogInformation(method, parameters, completed);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Trace"/>.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger"/></param>
+    /// <param name="message">Message to log</param>
+    /// <param name="method">Method name</param>
+    public static void LogAsTrace(this ILogger logger, string message, [CallerMemberName] string method = "")
+    {
+        logger.LogVerbose(method, message);
+    }
+
+    /// <summary>
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Trace"/> with parameters.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger"/></param>
+    /// <param name="parameters">Comma separated list of parameters</param>
+    /// <param name="message">Message to log</param>
+    /// <param name="method">Method name</param>
+    public static void LogAsTrace(this ILogger logger, string parameters, string message, [CallerMemberName] string method = "")
+    {
+        logger.LogVerbose(method, parameters, message);
+    }
+
+    /// <summary>
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Information"/>.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger"/></param>
+    /// <param name="message">Message to log</param>
+    /// <param name="method">Method name</param>
+    public static void LogAsInformation(this ILogger logger, string message, [CallerMemberName] string method = "")
+    {
+        logger.LogInformation(method, message);
+    }
+
+    /// <summary>
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Information"/> with parameters.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger"/></param>
+    /// <param name="parameters">Comma separated list of parameters</param>
+    /// <param name="message">Message to log</param>
+    /// <param name="method">Method name</param>
+    public static void LogAsInformation(this ILogger logger, string parameters, string message, [CallerMemberName] string method = "")
+    {
+        logger.LogInformation(method, parameters, message);
+    }
+
+    /// <summary>
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Warning"/>.
+    /// </summary>
+    /// <param name="logger"><see cref="ILogger"/></param>
+    /// <param name="message">Message to log</param>
     /// <param name="exception">Captured Exception</param>
     /// <param name="method">Method name</param>
-    public static void LogMethodCompleted(this ILogger logger, LogLevel logLevel = LogLevel.Trace, Exception? exception = null, [CallerMemberName] string method = "")
+    public static void LogAsWarning(this ILogger logger, string message, Exception? exception = null, [CallerMemberName] string method = "")
     {
-        var eventId = logLevel switch
-        {
-            LogLevel.Trace => EventIds.Trace,
-            LogLevel.Information => EventIds.Information,
-            _ => 0
-        };
-
-        logger.LogMessage(logLevel, eventId, method, completed);
+        logger.LogWarning(method, message, exception);
     }
 
     /// <summary>
-    /// Logs that method call is completed.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger" /></param>
-    /// <param name="parameters">Comma separated list of parameters</param>
-    /// <param name="logLevel">Log level <see cref="LogLevel"/></param>
-    /// <param name="method">Method name</param>
-    public static void LogMethodCompleted(this ILogger logger, string parameters, LogLevel logLevel = LogLevel.Trace, [CallerMemberName] string method = "")
-    {
-        var eventId = logLevel switch
-        {
-            LogLevel.Trace => EventIds.Trace,
-            LogLevel.Information => EventIds.Information,
-            _ => 0
-        };
-
-        logger.LogMessage(logLevel, eventId, method, parameters, completed);
-    }
-
-    /// <summary>
-    /// Formats and writes a trace log message.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger"/></param>
-    /// <param name="message">Message to log</param>
-    /// <param name="method">Method name</param>
-    public static void LogTrace(this ILogger logger, string message, [CallerMemberName] string method = "")
-    {
-        logger.LogMessage(LogLevel.Trace, EventIds.Trace, method, message);
-    }
-
-    /// <summary>
-    /// Formats and writes a trace log message.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger"/></param>
-    /// <param name="parameters">Comma separated list of parameters</param>
-    /// <param name="message">Message to log</param>
-    /// <param name="method">Method name</param>
-    public static void LogTrace(this ILogger logger, string parameters, string message, [CallerMemberName] string method = "")
-    {
-        logger.LogMessage(LogLevel.Trace, EventIds.Trace, method, parameters, message);
-    }
-
-    /// <summary>
-    /// Using <see cref="LoggerMessage"/> for High Performance logging, formats and writes an informational log message.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger"/></param>
-    /// <param name="message">Message to log</param>
-    /// <param name="method">Method name</param>
-    public static void LogInformationHp(this ILogger logger, string message, [CallerMemberName] string method = "")
-    {
-        logger.LogMessage(LogLevel.Information, EventIds.Information, method, message);
-    }
-
-    /// <summary>
-    /// Using <see cref="LoggerMessage"/> for High Performance logging, formats and writes an informational log message.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger"/></param>
-    /// <param name="parameters">Comma separated list of parameters</param>
-    /// <param name="message">Message to log</param>
-    /// <param name="method">Method name</param>
-    public static void LogInformationHp(this ILogger logger, string parameters, string message, [CallerMemberName] string method = "")
-    {
-        logger.LogMessage(LogLevel.Information, EventIds.Information, method, parameters, message);
-    }
-
-    /// <summary>
-    /// Using <see cref="LoggerMessage"/> for High Performance logging, formats and writes a warning log message.
-    /// </summary>
-    /// <param name="logger"><see cref="ILogger"/></param>
-    /// <param name="message">Message to log</param>
-    /// <param name="exception">Captured Exception</param>
-    /// <param name="method">Method name</param>
-    public static void LogWarningHp(this ILogger logger, string message, Exception? exception = null, [CallerMemberName] string method = "")
-    {
-        logger.LogMessage(LogLevel.Warning, EventIds.Warning, method, message);
-    }
-
-    /// <summary>
-    /// Using <see cref="LoggerMessage"/> for High Performance logging, formats and writes a warning log message.
+    /// Using <see cref="LoggerMessage"/> for High Performance logging,
+    /// logs a message as <see cref="LogLevel.Warning"/> with parameters.
     /// </summary>
     /// <param name="logger"><see cref="ILogger"/></param>
     /// <param name="parameters">Comma separated list of parameters</param>
     /// <param name="message">Message to log</param>
     /// <param name="exception">Captured Exception</param>
     /// <param name="method">Method name</param>
-    public static void LogWarningHp(this ILogger logger, string parameters, string message, Exception? exception = null, [CallerMemberName] string method = "")
+    public static void LogAsWarning(this ILogger logger, string parameters, string message, Exception? exception = null, [CallerMemberName] string method = "")
     {
-        logger.LogMessage(LogLevel.Warning, EventIds.Warning, method, parameters, message);
+        logger.LogWarning(method, parameters, message, exception);
     }
 
     /// <summary>
@@ -168,7 +209,7 @@ public static class LoggingExtensions
     /// <param name="message">Message to log</param>
     /// <param name="exception">Captured Exception</param>
     /// <param name="method">Method name</param>
-    public static void LogErrorHp(this ILogger logger, string errorCode, string message, Exception? exception = null, [CallerMemberName] string method = "")
+    public static void LogAsError(this ILogger logger, string errorCode, string message, Exception? exception = null, [CallerMemberName] string method = "")
     {
         if (exception == null)
         {
@@ -191,7 +232,7 @@ public static class LoggingExtensions
     /// <param name="message">Message to log</param>
     /// <param name="exception">Captured Exception</param>
     /// <param name="method">Method name</param>
-    public static void LogErrorHp(this ILogger logger, string parameters, string errorCode, string message, Exception? exception = null, [CallerMemberName] string method = "")
+    public static void LogAsError(this ILogger logger, string parameters, string errorCode, string message, Exception? exception = null, [CallerMemberName] string method = "")
     {
         if (exception == null)
         {
