@@ -1,6 +1,10 @@
 # Introduction
 This repo is a container for hosting all common packages and libraries.
 
+# Contributing
+
+For detailed instructions on how to contribute to this project, please read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) 
+
 # Getting Started
 1. Clone the repository
 1. Make changes to the existing package OR
@@ -40,3 +44,7 @@ Follow the steps below:
 	https://pkgs.dev.azure.com/FutureIRAS/0e030eb0-cb72-4f42-b99a-26e6544271c3/_packaging/rsp-nuget-feed/nuget/v3/index.json
 	```
 2. In visual studio use the NuGet Package Manager to update the package
+
+# License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details. Please see [HRA's Licensing Terms](https://dev.azure.com/FutureIRAS/Research%20Systems%20Programme/_wiki/wikis/RSP.wiki/84/Licensing-Information) for more details.
