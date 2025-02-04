@@ -10,12 +10,15 @@ parameters:
   - name: devops_library_branch
     displayName: DevOps Library Branch
     type: string
-    default: main
-  - name: run_github_security_scan
+    default: feature/rsp-2224-migrate-to-github
+  - name: run_sonarcloud_analysis
+    displayName: Run Sonar Cloud Analysis
     type: boolean
-    displayName: Run GitHub Advanced Security Scan
     default: true
-
+  - name: skip_deployment
+    displayName: Skip Deployment
+    type: boolean
+    default: false
 variables:
   - name: vstsFeed
     value: "0e030eb0-cb72-4f42-b99a-26e6544271c3/0a3e0ad2-23b6-4e8b-ae12-cd6d01fe97e7"
@@ -39,6 +42,7 @@ stages:
     jobs:
     - template: jobs/artifact.yaml@library
       parameters:
-        run_github_security_scan: ${{ parameters.run_github_security_scan }}
-        sonar_project_key: FutureIRAS_rsp-logging-package
+        run_github_security_scan: false
+        sonar_project_key: HealthResearchAuthority_rsp-logging-package
         sonar_project_name: rsp-logging-package
+        run_sonarcloud_analysis: ${{ parameters.run_sonarcloud_analysis }}
