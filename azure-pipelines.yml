@@ -10,7 +10,7 @@ parameters:
   - name: devops_library_branch
     displayName: DevOps Library Branch
     type: string
-    default: feature/rsp-2224-migrate-to-github
+    default: main
   - name: run_sonarcloud_analysis
     displayName: Run Sonar Cloud Analysis
     type: boolean
